@@ -43,7 +43,7 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-scbs = "scbs.cli:cli"
+methscan = "methscan.cli:cli"
 
 [tool.isort]
 profile = "black"
