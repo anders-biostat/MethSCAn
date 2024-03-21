@@ -15,7 +15,7 @@ from .utils import (
 
 def profile(data_dir, regions, output, width, strand_column, label):
     """
-    see 'scbs profile --help'
+    see 'methscan profile --help'
     """
     _check_data_dir(data_dir)
     cell_names = _parse_cell_names(data_dir)

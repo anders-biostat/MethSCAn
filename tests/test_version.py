@@ -1,4 +1,4 @@
-from scbs import __version__
+from methscan import __version__
 
 with open("pyproject.toml", "r") as toml:
     for line in toml:

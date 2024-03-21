@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "scbs"
-version = "0.6.7"
+name = "MethSCAn"
+version = "1.0.0"
 description = "command line tool for the analysis of single-cell bisulfite-sequencing data"
 authors = [
     "Lukas PM Kremer <L-Kremer@web.de>",
@@ -10,8 +10,8 @@ authors = [
 ]
 maintainers = ["Lukas PM Kremer <L-Kremer@web.de>"]
 readme = "README.md"
-repository = "https://github.com/LKremer/scbs"
-homepage = "https://github.com/LKremer/scbs"
+repository = "https://github.com/anders-biostat/MethSCAn"
+homepage = "https://github.com/anders-biostat/MethSCAn"
 keywords = ["biology", "bioinformatics", "single cell", "methylation", "single cell bisulfite sequencing"]
 license = "GPL-3.0-or-later"
 classifiers = [

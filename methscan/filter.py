@@ -94,7 +94,7 @@ def _check_cell_number(n, n_before):
 
 
 def _copy_log(original_path, copy_path, n_cells_postfilter, n_cells_prefilter):
-    content = "run_info.txt was missing before calling scbs filter...\n\n\n"
+    content = "run_info.txt was missing before calling methscan filter...\n\n\n"
     if os.path.isfile(original_path):
         with open(original_path, "r") as infile:
             content = infile.read() + "\n\n\n"
@@ -104,7 +104,7 @@ def _copy_log(original_path, copy_path, n_cells_postfilter, n_cells_prefilter):
         content += (
             f"---------- {now.strftime('%a %b %d %H:%M:%S %Y')} ----------"
             f"\n{n_filtered} of {n_cells_prefilter} cells were discarded "
-            "with scbs filter.\n"
+            "with methscan filter.\n"
         )
         outfile.write(content)
 

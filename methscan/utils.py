@@ -112,12 +112,12 @@ def _check_data_dir(data_dir, assert_smoothed=False):
         raise Exception(
             f"Your specified DATA_DIR '{data_dir}' is invalid since it does not "
             "contain any chromosome files.\n           Chromosome files "
-            "end in '.npz' and are automatically created by 'scbs prepare'."
+            "end in '.npz' and are automatically created by 'methscan prepare'."
         )
     if assert_smoothed:
         smooth_files = glob(os.path.join(data_dir, "smoothed", "*.csv"))
         if not smooth_files:
             raise Exception(
                 f"Your specified DATA_DIR '{data_dir}' is not smoothed yet."
-                "\n           Please smooth your data with 'scbs smooth'."
+                "\n           Please smooth your data with 'methscan smooth'."
             )

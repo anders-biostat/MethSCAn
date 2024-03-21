@@ -4,8 +4,8 @@ import numpy as np
 import scipy.sparse as sp_sparse
 from click.testing import CliRunner
 
-from scbs.cli import cli
-from scbs.prepare import (
+from methscan.cli import cli
+from methscan.prepare import (
     _get_cell_names,
     _human_to_computer,
     _iter_chunks,

@@ -72,14 +72,14 @@ def prepare(input_files, data_dir, input_format, round_sites, chunksize):
 
 
 def _write_run_info(fpath, begin_time, **kwargs):
-    """On prepare, write scbs version, run date and parameters to a logfile"""
+    """On prepare, write methscan version, run date and parameters to a logfile"""
     now = datetime.now()
     runtime = timedelta(seconds=(now - begin_time).seconds)
     with open(fpath, "w") as log:
         log.write(
             "This directory was generated "
             f"on {now.strftime('%a %b %d %H:%M:%S %Y')}\n"
-            f"with scbs prepare version {__version__}.\n"
+            f"with methscan prepare version {__version__}.\n"
             f"The total runtime was {runtime} (hour:min:s).\n"
             "\nThe following parameters were used:"
         )
@@ -119,7 +119,7 @@ def _dump_coo_files(fpaths, input_format, n_cells, output_dir, round_sites, chun
         raise type(exc)(
             f"{exc}\n\nUnknown input file format '{input_format}'.\nValid options "
             "include 'bismark', 'allc', 'methylpy' or a custom ':'-separated format "
-            "(check 'scbs prepare --help' for details)."
+            "(check 'methscan prepare --help' for details)."
         ).with_traceback(sys.exc_info()[2])
 
     coo_files = {}

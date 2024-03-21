@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 from click.testing import CliRunner
 
-from scbs.cli import cli
-from scbs.diff import parse_cell_groups
+from methscan.cli import cli
+from methscan.diff import parse_cell_groups
 
 
 def test_parse_cell_groups():

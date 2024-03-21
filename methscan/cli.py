@@ -83,17 +83,13 @@ def _set_n_threads(ctx, param, value):
     help_options_color="green",
     help=f"""
         \b
-                    {style("|", fg="blue")}
-        {style(",---. ,---. |---. ,---.", fg="blue")} \
-{style("version " + __version__, fg="green")}
-        {style("`---. |     |   | `---.", fg="blue")}
-        {style("`---' `---' `---' `---'", fg="blue")}
+        {style("MethSCAn version " + __version__, fg="green")}
 
         Below you find a list of all available commands.
         To find out what they do and how to use them, check
         their help like this:
 
-        {style("scbs [command] --help", fg="blue")}
+        {style("methscan [command] --help", fg="blue")}
 
         To use stdin or stdout, use the dash character
         {style("-", fg="blue")} instead of a file path.
@@ -198,7 +194,7 @@ def prepare_cli(**kwargs):
     want to keep.
 
     {style("DATA_DIR", fg="green")} is the unfiltered directory containing the
-    methylation matrices produced by running 'scbs prepare'.
+    methylation matrices produced by running 'methscan prepare'.
 
     {style("FILTERED_DIR", fg="green")} is the output directory storing methylation
     data only for the cells that passed all filtering criteria.
@@ -271,7 +267,7 @@ def filter_cli(**kwargs):
     whole genome.
 
     {style("DATA_DIR", fg="green")} is the directory containing the methylation matrices
-    produced by running 'scbs prepare'.
+    produced by running 'methscan prepare'.
 
     The smoothed methylation values will be written to
     {style("DATA_DIR/smoothed/", fg="green")}.
@@ -318,8 +314,8 @@ def smooth_cli(**kwargs):
     window, and selecting windows above a variance threshold.
 
     {style("DATA_DIR", fg="green")} is the directory containing the methylation
-    matrices produced by running 'scbs prepare', as well as the smoothed methylation
-    values produced by running 'scbs smooth'.
+    matrices produced by running 'methscan prepare', as well as the smoothed methylation
+    values produced by running 'methscan smooth'.
 
     {style("OUTPUT", fg="green")} is the path of the output file in '.bed' format,
     containing the VMRs that were found.
@@ -402,8 +398,8 @@ def scan_cli(**kwargs):
     of the data which are then used to calculate an adjusted p-value for each DMR.
 
     {style("DATA_DIR", fg="green")} is the directory containing the methylation
-    matrices produced by running 'scbs prepare', as well as the smoothed methylation
-    values produced by running 'scbs smooth'.
+    matrices produced by running 'methscan prepare', as well as the smoothed methylation
+    values produced by running 'methscan smooth'.
 
     {style("CELL_GROUPS", fg="green")} is a comma-separated text file that lists the
     group membership (e.g. cell type or treatment) of each cell. Each row contains two
@@ -504,8 +500,8 @@ def diff_cli(**kwargs):
     will be quantified in every cell.
 
     {style("DATA_DIR", fg="green")} is the directory containing the methylation
-    matrices produced by running 'scbs prepare', as well as the smoothed methylation
-    values produced by running 'scbs smooth'.
+    matrices produced by running 'methscan prepare', as well as the smoothed methylation
+    values produced by running 'methscan smooth'.
 
     \b
     {style("OUTPUT_DIR", fg="green")} is the output directory.
@@ -568,7 +564,7 @@ def matrix_cli(**kwargs):
     for which the methylation profile will be produced.
 
     {style("DATA_DIR", fg="green")} is the directory containing the methylation matrices
-    produced by running 'scbs prepare'.
+    produced by running 'methscan prepare'.
 
     {style("OUTPUT", fg="green")} is the file path where the methylation profile data
     will be written. Should end with '.csv'.

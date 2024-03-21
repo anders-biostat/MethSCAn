@@ -319,7 +319,7 @@ def calc_tstat_peaks(
 def parse_cell_groups(csv_path, data_dir):
     """
     Parses the user-specified csv file that denotes the two groups of cells that
-    should be compared with scbs diff. Also checks that this file is valid.
+    should be compared with methscan diff. Also checks that this file is valid.
     Returns an array with the group labels and a list of the two group names.
     """
     cellname_path = os.path.join(data_dir, "column_header.txt")

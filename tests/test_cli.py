@@ -6,7 +6,7 @@ import pytest
 from click.testing import CliRunner
 from pandas import read_csv
 
-from scbs.cli import cli
+from methscan.cli import cli
 
 
 def scan_gzip_contents(path_gz):
@@ -147,7 +147,7 @@ def test_filter_cli_threshold(tmp_path):
         assert csv.readline().startswith("cell_name,")
         assert csv.readline().startswith("b,")
     with open(os.path.join(p, "run_info.txt")) as run_info:
-        assert "scbs prepare version" in run_info.read()
+        assert "methscan prepare version" in run_info.read()
 
 
 def test_filter_cli_toostrict(tmp_path):

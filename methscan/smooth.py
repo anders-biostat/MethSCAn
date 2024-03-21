@@ -85,7 +85,7 @@ def _load_smoothed_chrom(data_dir, chrom):
         raise Exception(
             "Could not find smoothed methylation data for "
             f"chromosome {chrom} at {smoothed_path} . "
-            "Please run 'scbs smooth' first."
+            "Please run 'methscan smooth' first."
         )
     smoo_df = pd.read_csv(smoothed_path, delimiter=",", header=None, dtype="float")
     typed_dict = _populate_smooth_value_dict(smoo_df.values)
