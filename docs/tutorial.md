@@ -1,32 +1,32 @@
 # Tutorial
 
-This tutorial will show you how to use `scbs` on a small example data set that we provide.
+This tutorial will show you how to use *MethSCAn* on a small example data set that we provide.
 The overall run time is no longer than 2-5 minutes.
 Hardware requirements for this tutorial are very low, this example analysis should run on any modern desktop computer or laptop.
 
 
 ## Usage principles
 
-`scbs` provides a number of commands.
-To view the available commands, simply install `scbs` and then type `scbs --help` (or just `scbs`) in your terminal.
-Similarly, you can use `scbs [command] --help` to learn about each command and their arguments.
-For example, use `scbs prepare --help` to learn how to use the `prepare` command.
+*MethSCAn* provides a number of commands.
+To view the available commands, simply install *MethSCAn* and then type `methscan --help` (or just `methscan`) in your terminal.
+Similarly, you can use `methscan [command] --help` to learn about each command and their arguments.
+For example, use `methscan prepare --help` to learn how to use the `prepare` command.
 
-A typical `scbs` workflow consists of the following steps which will be explained in the course of this tutorial:
-1. use `scbs prepare` to store single-cell methylation data in an efficient format
-2. use `scbs filter` to filter low-quality cells
-3. use `scbs scan` to discover variably methylated regions (VMRs) in the genome, or alternatively provide your own regions of interest
-4. use `scbs matrix` to receive a methylation matrix analogous to the count matrix in scRNA-seq
+A typical *MethSCAn* workflow consists of the following steps which will be explained in the course of this tutorial:
+1. use `methscan prepare` to store single-cell methylation data in an efficient format
+2. use `methscan filter` to filter low-quality cells
+3. use `methscan scan` to discover variably methylated regions (VMRs) in the genome, or alternatively provide your own regions of interest
+4. use `methscan matrix` to receive a methylation matrix analogous to the count matrix in scRNA-seq
 5. use the methylation matrix for downstream analysis such as dimensionality reduction and clustering
-6. optionally use `scbs diff` to find differentially methylated regions (DMRs) between two groups of cells
+6. optionally use `methscan diff` to find differentially methylated regions (DMRs) between two groups of cells
 
 
 ### What you will need
 
-`scbs` assumes that you
+*MethSCAn* assumes that you
 - used single-cell bisulfite-sequencing (scBS) to generate FASTQ-files of bisulfite-converted reads
 - mapped the reads with a methylation-aware program
-- extracted context-dependent methylation values (typically CpG) from the alignments
+- extracted context-dependent methylation values (typically CpG or CH) from the alignments
 
 The last two steps can be achieved with bulk bisulfite-sequencing tools such as [Bismark](https://www.bioinformatics.babraham.ac.uk/projects/bismark/) and the included `bismark_methylation_extractor` script.
 Afterwards, you should be left with a simple tabular file for each cell.
@@ -46,9 +46,9 @@ You should have one of these files per cell.
 
 The columns denote the chromosome name, the start and end coordinates of the methylation site (identical in this case), the observed percentage of methylation (typically 0% or 100% in single-cell data), the number of reads that are methylated at that site, and the number of unmethylated reads.
 If you did not use Bismark and your files have a slightly different format, don't worry.
-We support a range of different input formats and you can even define your own custom format (see `scbs prepare --help`).
+We support a range of different input formats and you can even define your own custom format (see `methscan prepare --help`).
 
-`scbs` supports both uncompressed and gzip-compressed input files, as long as any gzipped files end in `.gz`.
+*MethSCAn* supports both uncompressed and gzip-compressed input files, as long as any gzipped files end in `.gz`.
 
 
 ## Download our tutorial data set
@@ -58,18 +58,18 @@ In this tutorial, we will analyze a small example data set with just 30 cells. I
 - Windows: download [scbs_tutorial_data.zip](https://heibox.uni-heidelberg.de/f/d1d3b9407b44473b808f/?dl=1) and unpack.
 
 
-### 1. Preparing your `scbs` run
+### 1. Preparing your *MethSCAn* run
 
-The first step of any `scbs` workflow is to collect the methylation data of all single-cell files in order to store it in a more efficient format.
-This can be achieved with the command `scbs prepare`:
+The first step of any *MethSCAn* workflow is to collect the methylation data of all single-cell files in order to store it in a more efficient format.
+This can be achieved with the command `methscan prepare`:
 
 ```bash
-scbs prepare scbs_tutorial_data/*.cov compact_data
+methscan prepare scbs_tutorial_data/*.cov compact_data
 ```
 
 This command will take all files ending in `.cov` in the `scbs_tutorial_data` directory and efficiently store their methylation values in a new directory called `compact_data`.
-`scbs prepare` is the only step that requires the raw data, all other `scbs` commands work directly with `compact_data`.
-If you're working with your own data and you sequenced thousands of cells, `scbs prepare` will take quite long.
+`methscan prepare` is the only step that requires the raw data, all other *MethSCAn* commands work directly with `compact_data`.
+If you're working with your own data and you sequenced thousands of cells, `methscan prepare` will take quite long.
 But fortunately, you only have to run it once in the very beginning.
 
 > [!NOTE]  
@@ -107,9 +107,9 @@ Note that we're dealing with a small toy data set here, and the numbers will loo
 Finally, we also inspect the average methylation profile around transcription start sites (TSSs) for every cell.
 Why?
 Our tutorial data set consists of mouse cells, and it is known that DNA methylation is globally high in mouse, but low around TSSs.
-Every cell that strongly deviates from this expectation is suspicious and a candidate for filtering, so we use `scbs profile` to help visualize the average methylation around TSSs:
+Every cell that strongly deviates from this expectation is suspicious and a candidate for filtering, so we use `methscan profile` to help visualize the average methylation around TSSs:
 ```bash
-scbs profile --strand-column 6 scbs_tutorial_data/Mus_musculus.GRCm38.102_TSS.bed compact_data TSS_profile.csv
+methscan profile --strand-column 6 scbs_tutorial_data/Mus_musculus.GRCm38.102_TSS.bed compact_data TSS_profile.csv
 ```
 Again, we can use R or any other language to inspect the TSS profiles:
 ```r
@@ -138,10 +138,10 @@ In most cases, these cells should be filtered.
 
 Let's filter all three low-quality cells from the data set:
 ```bash
-scbs filter --min-sites 60000 --min-meth 20 --max-meth 60 compact_data filtered_data
+methscan filter --min-sites 60000 --min-meth 20 --max-meth 60 compact_data filtered_data
 ```
 This command removes cells with less than 60,000 observed methylation sites, less than 20% global methylation, and more than 60% global methylation (these values would look very different in a real experiment).
-If you want full control over which cells will be filtered, you can also select cells by their name, see `scbs filter --help` for details.
+If you want full control over which cells will be filtered, you can also select cells by their name, see `methscan filter --help` for details.
 
 We can now proceed with the quality-filtered data, stored in `filtered_data`.
 
@@ -152,20 +152,20 @@ The starting point of every single-cell RNA-seq analysis is a gene × cell (or c
 But single-cell methylation data is genome-wide and not limited to genes, hence we need to define genomic regions of interest.
 A common strategy is to simply quantify methylation at promoters or gene bodies.
 But not all methylation differences occur at promoters or gene bodies, hence we propose to discover variably methylated regions (VMRs) in the data itself.
-This can be achieved with `scbs scan`.
+This can be achieved with `methscan scan`.
 
-Before you can run `scbs scan` for the first time, you will need to run `scbs smooth` once.
+Before you can run `methscan scan` for the first time, you will need to run `methscan smooth` once.
 This command simply treats all your single cells as a pseudo-bulk sample and calculates the smoothed mean methylation along the whole genome.
 This information is required for VMR detection, and later, for obtaining a methylation matrix.
 
 ```bash
-scbs smooth filtered_data
+methscan smooth filtered_data
 ```
 
 Now that `filtered_data` is smoothed, we can proceed with the VMR detection:
 
 ```bash
-scbs scan --threads 4 filtered_data VMRs.bed
+methscan scan --threads 4 filtered_data VMRs.bed
 ```
 We use the option `--threads 4` in order to run the program on 4 CPU threads in parallel. If you want to use all available threads, simply omit the `--threads` option altogether.
 The result is a [BED-file](https://en.wikipedia.org/wiki/BED_(file_format)) that lists the genomic coordinates (chromosome, start, end) of regions where methylation is variable between cells, as well as the methylation variance of the region:
@@ -181,9 +181,9 @@ The result is a [BED-file](https://en.wikipedia.org/wiki/BED_(file_format)) that
 
 ### 4. Obtaining a methylation matrix
 
-Finally, you can quantify the mean methylation of the VMRs that we just discovered using `scbs matrix`:
+Finally, you can quantify the mean methylation of the VMRs that we just discovered using `methscan matrix`:
 ```bash
-scbs matrix --threads 4 VMRs.bed filtered_data VMR_matrix
+methscan matrix --threads 4 VMRs.bed filtered_data VMR_matrix
 ```
 The output directory `VMR_matrix` contains the cell × region methylation matrix that lists the average methylation of all regions (here: VMRs) in all cells.
 It is similar to the count matrices generated in scRNA-seq experiments.
@@ -212,7 +212,7 @@ This methylation matrix can now be used to distinguish different cell types in t
 If you want, you can also get a methylation matrix of specific genomic features that you are interested in.
 For example, here we quantify methylation of promoters in the mouse genome:
 ```bash
-scbs matrix --threads 4 scbs_tutorial_data/mouse_promoters.bed filtered_data promoter_matrix
+methscan matrix --threads 4 scbs_tutorial_data/mouse_promoters.bed filtered_data promoter_matrix
 ```
 
 
@@ -293,10 +293,10 @@ This matrix yields a visually similar PCA, although the three cell types are not
 ### 6. Finding differentially methylated regions (DMRs)
 
 Now that we know that our sample consists of three groups of cells with different methylomes, the next step is to ask where in the genome methylation differs between those putative cell types.
-To scan the genome between two groups of cells, you can use `scbs diff`.
+To scan the genome between two groups of cells, you can use `methscan diff`.
 For this tutorial, I am going to compare the methylomes of the cells on the left of the PCA plot to the cells on the top right of the PCA plot.
 I will call these two groups of cells group_A and group_B.
-`scbs diff` needs a simple comma-separated text file that lists which cell belongs to which group, like this:
+`methscan diff` needs a simple comma-separated text file that lists which cell belongs to which group, like this:
 
 ```
 cell_01,-
@@ -347,10 +347,10 @@ cell_groups %>%
   write_csv("cell_groups.csv", col_names=F)
 ```
 
-Once you have this file, you can run `scbs diff` to find DMRs between group_A and group_B:
+Once you have this file, you can run `methscan diff` to find DMRs between group_A and group_B:
 
 ```bash
-scbs diff --threads 4 filtered_data cell_groups.csv DMRs.bed
+methscan diff --threads 4 filtered_data cell_groups.csv DMRs.bed
 ```
 
 The output file `DMRs.bed` contains a list of DMRs, their genome coordinates, the methylation difference measured by the t-statistic, and an adjusted p-value for each DMR.
@@ -363,14 +363,14 @@ One way to explore potential functions of these DMRs is to use tools such as [GR
 #### Using stdin and stdout
 If you want to use stdin and stdout instead of providing input/output file paths, you can use the `-` character where you would otherwise write the path to the file.
 This makes it easy to incorporate other tools such as `bedtools` into your workflows.
-For example, consider a workflow where you first want to sort your genomic input regions with `bedtools sort`, then you want to quantify methylation at these regions with `scbs matrix`:
+For example, consider a workflow where you first want to sort your genomic input regions with `bedtools sort`, then you want to quantify methylation at these regions with `methscan matrix`:
 ```bash
 bedtools sort -i unsorted.bed > sorted.bed
-scbs matrix sorted.bed filtered_data output
+methscan matrix sorted.bed filtered_data output
 ```
 Using stdin and stdout, this workflow can be simplified:
 ```bash
-bedtools sort -i unsorted.bed | scbs matrix - filtered_data output
+bedtools sort -i unsorted.bed | methscan matrix - filtered_data output
 ```
 
 
@@ -381,9 +381,9 @@ Cell names are derived from the name of the input file, e.g. `cell_1.cov.gz` bec
 
 Once you have this file, you can either use it as a whitelist...
 ```bash
-scbs filter --cell-names cells_to_keep.txt --keep compact_data filtered_data
+methscan filter --cell-names cells_to_keep.txt --keep compact_data filtered_data
 ```
 ...or a blacklist:
 ```bash
-scbs filter --cell-names cells_to_discard.txt --discard compact_data filtered_data
+methscan filter --cell-names cells_to_discard.txt --discard compact_data filtered_data
 ```

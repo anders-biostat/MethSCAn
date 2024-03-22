@@ -1,16 +1,13 @@
 # List of available commands
 ```
-Usage: scbs [OPTIONS] COMMAND [ARGS]...
+Usage: methscan [OPTIONS] COMMAND [ARGS]...
 
-              |
-  ,---. ,---. |---. ,---. version 0.6.1
-  `---. |     |   | `---.
-  `---' `---' `---' `---'
+  MethSCAn version 1.0.0
 
   Below you find a list of all available commands. To find out what they do
   and how to use them, check their help like this:
 
-  scbs [command] --help
+  methscan [command] --help
 
   To use stdin or stdout, use the dash character - instead of a file
   path.
@@ -30,7 +27,7 @@ Commands:
 ```
 # prepare
 ```
-Usage: scbs prepare [OPTIONS] [INPUT_FILES]... DATA_DIR
+Usage: methscan prepare [OPTIONS] [INPUT_FILES]... DATA_DIR
 
   Gathers single cell methylation data from multiple input files (one per
   cell) and creates a sparse matrix (position x cell) in CSR format for each
@@ -44,7 +41,7 @@ Usage: scbs prepare [OPTIONS] [INPUT_FILES]... DATA_DIR
   stored.
 
   Note: If you have many cells and encounter a "too many open files"- error,
-  you need to increase the open file limit with e.g. 'ulimit -n 9999'.
+  you need to increase the open file limit with e.g. 'ulimit -n 99999'.
 
 Options:
   --round-sites        Specify that you want to round methylation sites with
@@ -81,7 +78,7 @@ Options:
 ```
 # filter
 ```
-Usage: scbs filter [OPTIONS] DATA_DIR FILTERED_DIR
+Usage: methscan filter [OPTIONS] DATA_DIR FILTERED_DIR
 
   Filters low-quality cells based on the number of observed methylation sites
   and/or the global methylation percentage.
@@ -90,7 +87,7 @@ Usage: scbs filter [OPTIONS] DATA_DIR FILTERED_DIR
   you want to keep.
 
   DATA_DIR is the unfiltered directory containing the methylation
-  matrices produced by running 'scbs prepare'.
+  matrices produced by running 'methscan prepare'.
 
   FILTERED_DIR is the output directory storing methylation data only
   for the cells that passed all filtering criteria.
@@ -115,13 +112,13 @@ Options:
 ```
 # smooth
 ```
-Usage: scbs smooth [OPTIONS] DATA_DIR
+Usage: methscan smooth [OPTIONS] DATA_DIR
 
   This script will calculate the smoothed mean methylation over the whole
   genome.
 
   DATA_DIR is the directory containing the methylation matrices
-  produced by running 'scbs prepare'.
+  produced by running 'methscan prepare'.
 
   The smoothed methylation values will be written to
   DATA_DIR/smoothed/.
@@ -130,20 +127,20 @@ Options:
   -bw, --bandwidth INTEGER  Smoothing bandwidth in basepairs.  [default: 1000;
                             x>=1]
   --use-weights             Use this to weigh each methylation site by
-                            log1p(coverage).
+                            log1p(coverage).  [default: off]
   --help                    Show this message and exit.
 ```
 # scan
 ```
-Usage: scbs scan [OPTIONS] DATA_DIR OUTPUT
+Usage: methscan scan [OPTIONS] DATA_DIR OUTPUT
 
   Scans the whole genome for variably methylated regions (VMRs). This works by
   sliding a window across the genome, calculating the variance of methylation
   per window, and selecting windows above a variance threshold.
 
   DATA_DIR is the directory containing the methylation matrices
-  produced by running 'scbs prepare', as well as the smoothed methylation
-  values produced by running 'scbs smooth'.
+  produced by running 'methscan prepare', as well as the smoothed methylation
+  values produced by running 'methscan smooth'.
 
   OUTPUT is the path of the output file in '.bed' format, containing
   the VMRs that were found.
@@ -154,7 +151,7 @@ Options:
                             [default: 2000; x>=1]
   --stepsize INTEGER        Step size of the sliding window in basepairs.
                             Increase this value to gain speed, at the cost of
-                            some accuracy.  [default: 10; x>=1]
+                            some accuracy.  [default: 100; x>=1]
   --var-threshold FLOAT     The variance threshold, i.e. 0.02 means that the
                             top 2% most variable genomic bins will be
                             reported. Overlapping variable bins are merged.
@@ -171,7 +168,7 @@ Options:
 ```
 # diff
 ```
-Usage: scbs diff [OPTIONS] DATA_DIR CELL_GROUPS OUTPUT
+Usage: methscan diff [OPTIONS] DATA_DIR CELL_GROUPS OUTPUT
 
   Scans the whole genome for differentially methylated regions (DMRs) between
   two groups of cells. This works by sliding a window across the genome,
@@ -181,8 +178,8 @@ Usage: scbs diff [OPTIONS] DATA_DIR CELL_GROUPS OUTPUT
   p-value for each DMR.
 
   DATA_DIR is the directory containing the methylation matrices
-  produced by running 'scbs prepare', as well as the smoothed methylation
-  values produced by running 'scbs smooth'.
+  produced by running 'methscan prepare', as well as the smoothed methylation
+  values produced by running 'methscan smooth'.
 
   CELL_GROUPS is a comma-separated text file that lists the group
   membership (e.g. cell type or treatment) of each cell. Each row contains two
@@ -217,13 +214,13 @@ Options:
                             [default: all available]
   --write-header            Write the column names of the output file.
                             [default: off]
-  --debug                   Use this to to also report DMRs that were
-                            identified in permutations.
+  --debug                   Use this to also report DMRs that were identified
+                            in permutations.  [default: off]
   --help                    Show this message and exit.
 ```
 # matrix
 ```
-Usage: scbs matrix [OPTIONS] REGIONS DATA_DIR OUTPUT_DIR
+Usage: methscan matrix [OPTIONS] REGIONS DATA_DIR OUTPUT_DIR
 
   From single cell methylation or NOMe-seq data, calculates the average
   methylation in genomic regions for every cell. The output is a long table
@@ -234,26 +231,33 @@ Usage: scbs matrix [OPTIONS] REGIONS DATA_DIR OUTPUT_DIR
   quantified in every cell.
 
   DATA_DIR is the directory containing the methylation matrices
-  produced by running 'scbs prepare', as well as the smoothed methylation
-  values produced by running 'scbs smooth'.
+  produced by running 'methscan prepare', as well as the smoothed methylation
+  values produced by running 'methscan smooth'.
 
   OUTPUT_DIR is the output directory.
   It will contain four cell × region matrices ("count tables"):
-  methylated_sites.csv.gz - the number of sites that were methylated
-  total_sites.csv.gz - the total number of observed sites (sites with read coverage)
-  methylation_fractions.csv.gz - the average methylation, calculated as:
+  'methylated_sites.csv.gz': the number of sites that were methylated
+  'total_sites.csv.gz': the total number of observed sites (sites with read coverage)
+  'methylation_fractions.csv.gz': the average methylation, calculated as:
       # of methylated sites / # of total observed sites
-  mean_shrunken_residuals.csv.gz - the mean shrunken residuals, a more accurate
+  'mean_shrunken_residuals.csv.gz': the mean shrunken residuals, a more accurate
       measure of methylation in a genomic region.
 
 Options:
+  --sparse           [experimental] Write the output as a sparse matrix,
+                     instead of the four .csv.gz files described above. This
+                     is faster and more space-efficient for large data sets.
+                     The output 'matrix.mtx.gz' contains four columns:
+                     row_index, col_index, shrunken residuals, methylation
+                     fractions, coverage. Both indices are 1-indexed. Missing
+                     values denote NA, not zero(!)  [default: off]
   --threads INTEGER  How many CPU threads to use in parallel.  [default: all
                      available]
   --help             Show this message and exit.
 ```
 # profile
 ```
-Usage: scbs profile [OPTIONS] REGIONS DATA_DIR OUTPUT
+Usage: methscan profile [OPTIONS] REGIONS DATA_DIR OUTPUT
 
   From single cell methylation or NOMe-seq data, calculates the average
   methylation profile of a set of genomic regions. Useful for plotting and
@@ -263,7 +267,7 @@ Usage: scbs profile [OPTIONS] REGIONS DATA_DIR OUTPUT
   which the methylation profile will be produced.
 
   DATA_DIR is the directory containing the methylation matrices
-  produced by running 'scbs prepare'.
+  produced by running 'methscan prepare'.
 
   OUTPUT is the file path where the methylation profile data will be
   written. Should end with '.csv'.
