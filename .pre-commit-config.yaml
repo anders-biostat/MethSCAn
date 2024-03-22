@@ -8,7 +8,7 @@ repos:
     hooks:
       - id: black
         name: black
-        entry: poetry run black scbs
+        entry: poetry run black methscan
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: "v0.0.256"
