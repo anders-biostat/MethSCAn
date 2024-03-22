@@ -1,11 +1,12 @@
 [tool.poetry]
 name = "MethSCAn"
 version = "1.0.0"
-description = "command line tool for the analysis of single-cell bisulfite-sequencing data"
+description = "a command line tool for Single-Cell Analysis of Methylation data"
 authors = [
     "Lukas PM Kremer <L-Kremer@web.de>",
     "Martina Braun <martina.braun@stud.uni-heidelberg.de>",
     "Leonie Küchenhoff <leonie.kuechenhoff@gmx.de>",
+    "Svetlana Ovchinnikova <s.ovchinnikova@bioquant.uni-heidelberg.de>",
     "Simon Anders <simon.anders@bioquant.uni-heidelberg.de>",
 ]
 maintainers = ["Lukas PM Kremer <L-Kremer@web.de>"]
