@@ -1,22 +1,21 @@
-[![PyPI](https://img.shields.io/pypi/v/scbs?logo=PyPI)](https://pypi.org/project/scbs)
+[![PyPI](https://img.shields.io/pypi/v/scbs?logo=PyPI)](https://pypi.org/project/MethSCAn)
 [![PyPIDownloads](https://pepy.tech/badge/scbs)](https://pepy.tech/project/scbs)
 [![Stars](https://img.shields.io/github/stars/LKremer/scbs?logo=GitHub&color=yellow)](https://github.com/LKremer/scbs/stargazers)
 
-# `MethSCAn`: a command line tool for **S**ingle-**C**ell **An**alysis of **Meth**ylation data
-
-*formerly known as `scbs`.*
+# MethSCAn
+a command line tool for **S**ingle-**C**ell **An**alysis of **Meth**ylation data
 
 ## Installation
 
 This software requires a working installation of [Python 3](https://www.python.org/downloads/) (≥3.8) and requires the use of a shell terminal.
 It was extensively tested on Linux (Ubuntu 18, 20 and 22) and MacOS, and briefly tested on Windows 10.
 
-You can install `methscan` from the Python package index as follows:
+You can install *MethSCAn* from the Python package index as follows:
 ```
 python3 -m pip install --upgrade pip  # you need a recent pip version
 python3 -m pip install methscan
 ```
-Installation of `methscan` should take no longer than a few seconds. All required [dependencies](pyproject.toml) are automatically installed, this may take a few minutes.
+Installation of *MethSCAn* should take no longer than a few seconds. All required [dependencies](pyproject.toml) are automatically installed, this may take a few minutes.
 Afterwards, restart your terminal. The installation is now finished and the command line interface should now be available when typing the command `methscan` in your terminal.
 If this is not the case, check the "troubleshooting" section below.  
 
@@ -33,14 +32,14 @@ methscan --version
 
 ## [Tutorial](docs/tutorial.md) of a typical `methscan` run
 A tutorial / demo can be found [here](docs/tutorial.md).
-This gives instructions on how to use `methscan` on a small example data set which we provide.
+This gives instructions on how to use *MethSCAn* on a small example data set which we provide.
 
 Also make sure to read the help by typing `methscan --help` or by checking [this page](docs/commands.md).
 
 
 ## What can this package do?
 
-`methscan` takes as input a number of single-cell methylation files and allows you to quickly and easily obtain a cell × region matrix for downstream analysis (e.g. PCA, UMAP or clustering).
+*MethSCAn* takes as input a number of single-cell methylation files and allows you to quickly and easily obtain a cell × region matrix for downstream analysis (e.g. PCA, UMAP or clustering).
 It also facilitates quality control, allows you to discover variably methylated regions (VMRs), accurately quantifies methylation in genomic intervals, and stores your sc-methylomes in an efficient manner.
 Lastly, you can also select two cell populations and identify differentially methylated regions (DMRs) between them.
 
@@ -55,7 +54,8 @@ You can find a list of the available `methscan` commands [here](docs/commands.md
 
 ## bioRxiv preprint
 
-For a detailed explanation of the methods implemented in `methscan`, please check our bioRxiv preprint:
+For a detailed explanation of the methods implemented in *MethSCAn*, please check our bioRxiv preprint.
+Note that this package was formerly known as ['scbs'](https://github.com/LKremer/scbs) and later renamed to *MethSCAn*.
 
 *Analyzing single-cell bisulfite sequencing data with scbs*  
 Lukas PM Kremer, Leonie Kuechenhoff, Santiago Cerrizuela, Ana Martin-Villalba, Simon Anders  
