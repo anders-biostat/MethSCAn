@@ -57,8 +57,8 @@ You can find a list of the available `methscan` commands [here](docs/commands.md
 For a detailed explanation of the methods implemented in *MethSCAn*, please check our bioRxiv preprint.
 Note that this package was formerly known as ['scbs'](https://github.com/LKremer/scbs) and later renamed to *MethSCAn*.
 
-*Analyzing single-cell bisulfite sequencing data with scbs*  
-Lukas PM Kremer, Leonie Kuechenhoff, Santiago Cerrizuela, Ana Martin-Villalba, Simon Anders  
+*Analyzing single-cell bisulfite sequencing data with MethSCAn*  
+Lukas PM Kremer, Martina Braun, Svetlana Ovchinnikova, Leonie Kuechenhoff, Santiago Cerrizuela, Ana Martin-Villalba, Simon Anders  
 bioRxiv 2022.06.15.496318; doi: [https://doi.org/10.1101/2022.06.15.496318](https://doi.org/10.1101/2022.06.15.496318)
 
 
@@ -82,7 +82,7 @@ If you encounter a "too many open files" error during `methscan prepare` (`OSErr
 
 
 
-## Contributors
+## Code Contributors
 - [Lukas PM Kremer](https://github.com/LKremer)
 - [Martina Braun](https://github.com/martinabraun)
 - [Leonie Küchenhoff](https://github.com/LeonieKuechenhoff)
