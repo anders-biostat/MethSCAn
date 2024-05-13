@@ -1,6 +1,6 @@
 [![PyPI](https://img.shields.io/pypi/v/methscan?logo=PyPI)](https://pypi.org/project/MethSCAn)
 [![PyPIDownloads](https://pepy.tech/badge/scbs)](https://pepy.tech/project/methscan)
-[![GitHub](https://img.shields.io/badge/?logo=github)](https://github.com/anders-biostat/MethSCAn)
+[![GitHub](https://img.shields.io/github/v/tag/anders-biostat/MethSCAn?logo=github)](https://github.com/anders-biostat/MethSCAn)
 [![Stars](https://img.shields.io/github/stars/LKremer/scbs?logo=GitHub&color=yellow)](https://github.com/anders-biostat/MethSCAn/stargazers)
 
 # MethSCAn
@@ -31,11 +31,11 @@ Afterwards, make sure that the latest version is correctly installed:
 methscan --version
 ```
 
-## [Tutorial](docs/tutorial.html) of a typical `methscan` run
-A tutorial / demo can be found [here](docs/tutorial.html).
+## [Tutorial](tutorial.html) of a typical `methscan` run
+A tutorial / demo can be found [here](tutorial.html).
 This gives instructions on how to use *MethSCAn* on a small example data set which we provide.
 
-Also make sure to read the help by typing `methscan --help` or by checking [this page](docs/commands.html).
+Also make sure to read the help by typing `methscan --help` or by checking [this page](commands.html).
 
 
 ## What can this package do?
@@ -45,12 +45,12 @@ It also facilitates quality control, allows you to discover variably methylated 
 Lastly, you can also select two cell populations and identify differentially methylated regions (DMRs) between them.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/Fig_workflow2.png">
-  <source media="(prefers-color-scheme: light)" srcset="docs/Fig_workflow.png">
+  <source media="(prefers-color-scheme: dark)" srcset="Fig_workflow2.png">
+  <source media="(prefers-color-scheme: light)" srcset="Fig_workflow.png">
   <img alt="schematic showing the capabilities of methscan.">
 </picture>
 
-You can find a list of the available `methscan` commands [here](docs/commands.html).
+You can find a list of the available `methscan` commands [here](commands.html).
 
 
 ## bioRxiv preprint
