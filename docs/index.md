@@ -1,5 +1,6 @@
 [![PyPI](https://img.shields.io/pypi/v/methscan?logo=PyPI)](https://pypi.org/project/MethSCAn)
 [![PyPIDownloads](https://pepy.tech/badge/scbs)](https://pepy.tech/project/methscan)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/anders-biostat/MethSCAn)
 [![Stars](https://img.shields.io/github/stars/LKremer/scbs?logo=GitHub&color=yellow)](https://github.com/anders-biostat/MethSCAn/stargazers)
 
 # MethSCAn
@@ -15,7 +16,7 @@ You can install *MethSCAn* from the Python package index as follows:
 python3 -m pip install --upgrade pip  # you need a recent pip version
 python3 -m pip install methscan
 ```
-Installation of *MethSCAn* should take no longer than a few seconds. All required [dependencies](pyproject.toml) are automatically installed, this may take a few minutes.
+Installation of *MethSCAn* should take no longer than a few seconds. All required [dependencies](https://github.com/anders-biostat/MethSCAn/blob/master/pyproject.toml) are automatically installed, this may take a few minutes.
 Afterwards, restart your terminal. The installation is now finished and the command line interface should now be available when typing the command `methscan` in your terminal.
 If this is not the case, check the "troubleshooting" section below.  
 
@@ -30,11 +31,11 @@ Afterwards, make sure that the latest version is correctly installed:
 methscan --version
 ```
 
-## [Tutorial](docs/tutorial.md) of a typical `methscan` run
-A tutorial / demo can be found [here](docs/tutorial.md).
+## [Tutorial](docs/tutorial.html) of a typical `methscan` run
+A tutorial / demo can be found [here](docs/tutorial.html).
 This gives instructions on how to use *MethSCAn* on a small example data set which we provide.
 
-Also make sure to read the help by typing `methscan --help` or by checking [this page](docs/commands.md).
+Also make sure to read the help by typing `methscan --help` or by checking [this page](docs/commands.html).
 
 
 ## What can this package do?
@@ -49,7 +50,7 @@ Lastly, you can also select two cell populations and identify differentially met
   <img alt="schematic showing the capabilities of methscan.">
 </picture>
 
-You can find a list of the available `methscan` commands [here](docs/commands.md).
+You can find a list of the available `methscan` commands [here](docs/commands.html).
 
 
 ## bioRxiv preprint
