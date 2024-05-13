@@ -7,4 +7,4 @@ a command line tool for **S**ingle-**C**ell **An**alysis of **Meth**ylation data
 
 ## Instructions
 
-For **installation** instructions and a **usage** tutorial, see the [MethSCAn project page](https://anders-biostat.github.io/MethSCAn/).
+For **installation** instructions and a **usage** [tutorial](https://anders-biostat.github.io/MethSCAn/tutorial.html), see the [MethSCAn project page](https://anders-biostat.github.io/MethSCAn/).

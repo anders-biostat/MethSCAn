@@ -2,7 +2,6 @@
 [![PyPIDownloads](https://pepy.tech/badge/scbs)](https://pepy.tech/project/methscan)
 [![GitHub](https://img.shields.io/github/v/tag/anders-biostat/MethSCAn?logo=github)](https://github.com/anders-biostat/MethSCAn)
 
-# MethSCAn
 a command line tool for **S**ingle-**C**ell **An**alysis of **Meth**ylation data
 
 ## Installation
