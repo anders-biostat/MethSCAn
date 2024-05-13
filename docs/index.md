@@ -82,7 +82,7 @@ If you encounter a "too many open files" error during `methscan prepare` (`OSErr
 
 ## Souce Code
 
-The source code is hosted GitHub repository [anders-biostat/MethSCAn](https://github.com/anders-biostat/MethSCAn).
+The source code is hosted at the GitHub repository [anders-biostat/MethSCAn](https://github.com/anders-biostat/MethSCAn).
 
 
 ## Code Contributors
