@@ -1,7 +1,6 @@
 [![PyPI](https://img.shields.io/pypi/v/methscan?logo=PyPI)](https://pypi.org/project/MethSCAn)
 [![PyPIDownloads](https://pepy.tech/badge/scbs)](https://pepy.tech/project/methscan)
 [![GitHub](https://img.shields.io/github/v/tag/anders-biostat/MethSCAn?logo=github)](https://github.com/anders-biostat/MethSCAn)
-[![Stars](https://img.shields.io/github/stars/LKremer/scbs?logo=GitHub&color=yellow)](https://github.com/anders-biostat/MethSCAn/stargazers)
 
 # MethSCAn
 a command line tool for **S**ingle-**C**ell **An**alysis of **Meth**ylation data
