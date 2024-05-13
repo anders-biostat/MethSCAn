@@ -80,7 +80,7 @@ If you encounter other problems during installation, make sure you have Python3.
 If you encounter a "too many open files" error during `methscan prepare` (`OSError: [Errno 24] Too many open files`), you need to increase the maximum number of files that can be opened. In Unix systems, try `ulimit -n 9999`.
 
 
-## Souce Code
+## Source Code
 
 The source code is hosted at the GitHub repository [anders-biostat/MethSCAn](https://github.com/anders-biostat/MethSCAn).
 
