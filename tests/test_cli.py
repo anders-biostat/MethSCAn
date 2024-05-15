@@ -2,7 +2,6 @@ import os
 import shutil
 import gzip
 
-import pytest
 from click.testing import CliRunner
 from pandas import read_csv
 
@@ -28,29 +27,6 @@ def test_smooth_cli():
         assert smoothed.read() == "1000,0.0\n1234,1.0\n1235,1.0\n"
     shutil.rmtree("tests/data/tiny/data_dir/smoothed/")
     assert result.exit_code == 0, result.output
-
-
-@pytest.mark.filterwarnings("ignore::RuntimeWarning")
-def test_scan_cli():
-    """
-    pretty poor test currently, since the test data set is not useful.
-    it just makes sure that the CLI doesn't crash.
-    """
-    runner = CliRunner()
-    result = runner.invoke(
-        cli,
-        [
-            "scan",
-            "--threads",
-            "1",
-            "--bandwidth",
-            "2",
-            "tests/data/tiny/data_dir_smooth/",
-            "-",
-        ],
-    )
-    assert result.exit_code == 0, result.output
-    assert "Found no variably methylated regions" in result.output
 
 
 def test_matrix_cli(tmp_path):

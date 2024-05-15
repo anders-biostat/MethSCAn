@@ -54,7 +54,7 @@ def _find_peaks(smoothed_vars, swindow_centers, var_cutoff, half_bw):
                 peak_ends.append(prev_pos + half_bw)
         prev_pos = pos
     if in_peak:
-        peak_ends.append(pos)
+        peak_ends.append(pos + half_bw)
     assert len(peak_starts) == len(peak_ends)
     return peak_starts, peak_ends
 

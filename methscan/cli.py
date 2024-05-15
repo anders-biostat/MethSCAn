@@ -379,7 +379,7 @@ def smooth_cli(**kwargs):
     help="Write the column names of the output file.  [default: off]",
 )
 def scan_cli(**kwargs):
-    from .scbs import scan
+    from .scan import scan
 
     timer = Timer(label="scan")
     _print_kwargs(kwargs)

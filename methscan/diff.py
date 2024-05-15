@@ -13,7 +13,7 @@ from .numerics import (
     _calc_mean_shrunken_residuals_and_mfracs,
     _count_n_cpg,
 )
-from .scbs import _find_peaks
+from .scan import _find_peaks
 from .smooth import _load_smoothed_chrom
 from .utils import _check_data_dir, _get_filepath, _load_chrom_mat, echo, secho
 
@@ -240,7 +240,6 @@ def calc_tstat_peaks(
     for tstat_windows, group_name, threshold_value in zip(
         window_tstat_groups, group_names, threshold_datatype
     ):
-
         # merge overlapping windows with lowest and highest t-statistic,
         # to get bigger regions of variable size
         peak_starts, peak_ends = _find_peaks(
