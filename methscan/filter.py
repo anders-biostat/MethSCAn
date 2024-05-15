@@ -1,4 +1,5 @@
 import os
+import shutil
 from csv import DictReader
 from glob import glob
 from datetime import datetime
@@ -112,6 +113,17 @@ def _copy_log(original_path, copy_path, n_cells_postfilter, n_cells_prefilter):
 def filter_(
     data_dir, filtered_dir, min_sites, max_sites, min_meth, max_meth, cell_names, keep
 ):
+    data_dir = data_dir.rstrip(r"\/ ")
+    filtered_dir = filtered_dir.rstrip(r"\/ ")
+    in_place = False
+    if data_dir == filtered_dir:
+        in_place = True
+        filtered_dir = os.path.join(os.path.dirname(data_dir), "FILTER_TMP_DIR")
+        secho(
+            f"Since DATA_DIR and FILTERED_DIR are identical, {data_dir} will be "
+            "overwritten with a filtered version of itself.\n",
+            fg="yellow",
+        )
     _check_data_dir(data_dir)
     stats_path = os.path.join(data_dir, "cell_stats.csv")
     stats_path_out = os.path.join(filtered_dir, "cell_stats.csv")
@@ -155,3 +167,6 @@ def filter_(
     _filter_text_file(stats_path, cell_idx, stats_path_out, header=True)
     _filter_text_file(colname_path, cell_idx, colname_path_out, header=False)
     _copy_log(log_path, log_path_out, len(cell_idx), n_cells_prefilter)
+    if in_place:
+        shutil.rmtree(data_dir)
+        shutil.copytree(filtered_dir, data_dir)

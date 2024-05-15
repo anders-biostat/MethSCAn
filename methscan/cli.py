@@ -15,6 +15,9 @@ from .utils import (
 )
 
 
+VERSION_STR = style("v" + __version__, fg="green")
+
+
 class Timer:
     def __init__(self, label="run", fmt="%a %b %d %H:%M:%S %Y"):
         self.label = style(label, bold=True)
@@ -82,18 +85,22 @@ def _set_n_threads(ctx, param, value):
     help_headers_color="bright_white",
     help_options_color="green",
     help=f"""
-        \b
-        {style("MethSCAn version " + __version__, fg="green")}
+\b
+ __  __      _   _     ____   ____    _           \b
+|  \/  | ___| |_| |__ / ___| / ___|  / \   _ __  
+| |\/| |/ _ \ __| '_ \\\\___ \| |     / _ \ | '_ \  \b
+| |  | |  __/ |_| | | |___) | |___ / ___ \| | | |
+|_|  |_|\___|\__|_| |_|____/ \____/_/   \_\_| |_| {VERSION_STR}
 
-        Below you find a list of all available commands.
-        To find out what they do and how to use them, check
-        their help like this:
 
-        {style("methscan [command] --help", fg="blue")}
+    Below you find a list of all available commands.
+To find out what they do and how to use them, check their help like this:
 
-        To use stdin or stdout, use the dash character
-        {style("-", fg="blue")} instead of a file path.
-        """,
+    {style("methscan [command] --help", fg="blue")}
+
+    To use stdin or stdout, use the dash character
+{style("-", fg="blue")} instead of a file path.
+    """,
 )
 @click.version_option(version=__version__)
 def cli():
@@ -344,8 +351,8 @@ def smooth_cli(**kwargs):
     type=click.IntRange(min=1),
     metavar="INTEGER",
     show_default=True,
-    help="Step size of the sliding window in basepairs. Increase "
-    "this value to gain speed, at the cost of some accuracy.",
+    help="Step size of the sliding window in basepairs. Should be smaller than the "
+    "bandwidth. Increase this value to gain speed, at the cost of some accuracy.",
 )
 @click.option(
     "--var-threshold",
@@ -526,7 +533,7 @@ def diff_cli(**kwargs):
     "--sparse",
     is_flag=True,
     help="[experimental] Write the output as a sparse matrix, instead of the four "
-    ".csv.gz files described above. This is faster and more space-efficient for large "
+    ".csv.gz files described above. This is faster and more space-efficient for huge "
     "data sets. The output 'matrix.mtx.gz' contains four columns: row_index, "
     "col_index, shrunken residuals, methylation fractions, coverage. Both indices are "
     "1-indexed. Missing values denote NA, not zero(!)  [default: off]",

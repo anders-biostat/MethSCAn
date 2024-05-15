@@ -111,11 +111,15 @@ def test_profile_cli():
 
 
 def test_filter_cli_threshold(tmp_path):
-    p = os.path.join(tmp_path, "filtered_data_dir")
+    """
+    tests two features:
+    filtering by a numeric threshold of CpG sites
+    filtering in place (overwrite input directory)
+    """
+    p = os.path.join(tmp_path, "data_dir")
+    shutil.copytree("tests/data/tiny/data_dir/", p)
     runner = CliRunner()
-    result = runner.invoke(
-        cli, ["filter", "--min-meth", "50", "tests/data/tiny/data_dir/", p]
-    )
+    result = runner.invoke(cli, ["filter", "--min-meth", "50", p, p])
     assert result.exit_code == 0, result.output
     with open(os.path.join(p, "column_header.txt")) as colnames:
         assert colnames.read().strip() == "b"
