@@ -1,3 +1,4 @@
+[![Tests](https://img.shields.io/github/actions/workflow/status/anders-biostat/MethSCAn/install_lint_test.yml?branch=master)](https://github.com/anders-biostat/MethSCAn/actions/workflows/install_lint_test.yml)
 [![PyPI](https://img.shields.io/pypi/v/methscan?logo=PyPI)](https://pypi.org/project/MethSCAn)
 [![PyPIDownloads](https://pepy.tech/badge/scbs)](https://pepy.tech/project/methscan)
 [![Stars](https://img.shields.io/github/stars/LKremer/scbs?logo=GitHub&color=yellow)](https://github.com/anders-biostat/MethSCAn/stargazers)
