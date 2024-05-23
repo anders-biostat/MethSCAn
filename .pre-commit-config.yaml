@@ -3,15 +3,12 @@ default_stages: [commit]
 fail_fast: true
 
 repos:
-  - repo: https://github.com/psf/black
-    rev: 22.1.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.4.5
     hooks:
-      - id: black
-        name: black
-        entry: poetry run black methscan
-
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.0.256"
-    hooks:
+      # Run the linter.
       - id: ruff
-        exclude: "benchmarks"
+        args: [ --fix ]
+      # Run the formatter.
+      - id: ruff-format
