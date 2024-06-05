@@ -103,6 +103,35 @@ To find out what they do and how to use them, check their help like this:
     """,
 )
 @click.version_option(version=__version__)
+@click.version_option(
+    "cite",
+    "--cite",
+    help="Show publication reference and exit.",
+    message=(
+        """If you used MethSCAn in your research, please cite:
+
+Analyzing single-cell bisulfite sequencing data with MethSCAn
+Lukas PM Kremer, Martina M Braun, Svetlana Ovchinnikova, Leonie Küchenhoff, """
+        """Santiago Cerrizuela, Ana Martin-Villalba, Simon Anders
+bioRxiv, 2022
+
+doi / link: https://doi.org/10.1101/2022.06.15.496318
+
+BibTeX entry:
+
+@article{kremer2024,
+  title={Analyzing single-cell bisulfite sequencing data with {MethSCAn}},
+  author={Kremer, Lukas PM and Braun, Martina M and Ovchinnikova, Svetlana and """
+        """K{\"u}chenhoff, Leonie and Cerrizuela, Santiago and """
+        """Martin-Villalba, Ana and Anders, Simon},
+  journal={bioRxiv},
+  year={2022},
+  doi = {10.1101/2022.06.15.496318},
+  publisher={Cold Spring Harbor Laboratory}
+}
+"""
+    ),
+)
 def cli():
     pass
 
