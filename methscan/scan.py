@@ -112,6 +112,7 @@ def scan(
         numba.set_num_threads(threads)
     n_threads = numba.get_num_threads()
     half_bw = bandwidth // 2
+    n_vmrs_total, n_vmrs_hq = 0, 0
     # sort chroms by filesize. We start with largest chrom to find the var threshold
     chrom_paths = sorted(
         glob(os.path.join(data_dir, "*.npz")),
@@ -166,7 +167,9 @@ def scan(
 
         # for each big merged peak, re-calculate the variance and
         # write it to a file.
+        n_vmrs_chrom_hq = 0
         for ps, pe in zip(peak_starts, peak_ends):
+            n_vmrs_total += 1
             # get some basic info about the VMR: how many CpGs does it contain,
             # how many cells have coverage of the region?
             region_indices = mat.indices[mat.indptr[ps] : mat.indptr[pe + 1]]
@@ -191,9 +194,11 @@ def scan(
             # write a row to the output bed file
             bed_entry = f"{chrom}\t{ps}\t{pe}\t{peak_var}\t{n_cpg}\t{n_obs_cells}\n"
             output.write(bed_entry)
-        if len(peak_starts) > 0:
+            n_vmrs_hq += 1
+            n_vmrs_chrom_hq += 1
+        if n_vmrs_chrom_hq > 0:
             secho(
-                f"Found {len(peak_starts)} variably methylated regions on "
+                f"Found {n_vmrs_chrom_hq} variably methylated regions on "
                 f"chromosome {chrom}.",
                 fg="green",
             )
@@ -202,9 +207,15 @@ def scan(
                 f"Found no variably methylated regions on chromosome {chrom}.",
                 fg="red",
             )
+    if not n_vmrs_hq:
+        raise Exception(
+            f"Found {n_vmrs_total} potential VMRs but none of them have sequencing "
+            f"coverage in at least {min_cells} cells. Try lowering --min-cells "
+            "(or sequencing more cells 😉)."
+        )
     echo(
-        f"\nWrote VMRs with sequencing coverage in at least {min_cells} cells "
-        f"to {_get_filepath(output)}\n"
+        f"\nWrote {n_vmrs_hq} VMRs with sequencing coverage in at least "
+        f"{min_cells} cells to {_get_filepath(output)}\n"
         "The columns in this file correspond to:\n"
         "chromosome, VMR start, VMR end, variance, # of CpG sites, "
         "# of cells with coverage in the VMR"

@@ -237,11 +237,13 @@ def test_scan_cli():
         cli,
         [
             "scan",
+            "--min-cells",
+            "1",
             "--threads",
             "1",
             "--bandwidth",
             "2",
-            "tests/data/tiny/data_dir_smooth/",
+            "tests/data/tiny_diff/",
             "-",
         ],
     )
