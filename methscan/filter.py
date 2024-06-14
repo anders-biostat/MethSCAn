@@ -83,8 +83,12 @@ def _check_cell_number(n, n_before):
     if n < 1:
         raise Exception(
             "Your filtering options would mean that "
-            "no cells are left after filtering. "
-            "This is not enough to continue. Aborting."
+            "no cells are left after filtering. Aborting."
+        )
+    elif n == n_before:
+        secho(
+            "Warning: No cells are discarded with your current filtering settings.",
+            fg="red",
         )
     elif n <= 30:
         secho(
@@ -169,4 +173,5 @@ def filter_(
     _copy_log(log_path, log_path_out, len(cell_idx), n_cells_prefilter)
     if in_place:
         shutil.rmtree(data_dir)
-        shutil.copytree(filtered_dir, data_dir)
+        echo(f"overwriting the original data directory {data_dir} with {filtered_dir}.")
+        shutil.move(filtered_dir, data_dir)
