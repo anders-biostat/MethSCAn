@@ -43,11 +43,7 @@ Also make sure to read the help by typing `methscan --help` or by checking [this
 It also facilitates quality control, allows you to discover variably methylated regions (VMRs), accurately quantifies methylation in genomic intervals, and stores your sc-methylomes in an efficient manner.
 Lastly, you can also select two cell populations and identify differentially methylated regions (DMRs) between them.
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="Fig_workflow2.png">
-  <source media="(prefers-color-scheme: light)" srcset="Fig_workflow.png">
-  <img alt="schematic showing the capabilities of methscan.">
-</picture>
+![schematic showing the capabilities of MethSCAn.](Fig_workflow.png)
 
 You can find a list of the available `methscan` commands [here](commands.html).
 
@@ -78,7 +74,7 @@ Carefully check the output log of PIP. Look for a message like `WARNING: The scr
 If you encounter other problems during installation, make sure you have Python3.8 or higher, and make sure you have the latest PIP version. If the problem persists, consider installing `methscan` in a clean Python environment (for example using [venv](https://docs.python.org/3/library/venv.html)).
 
 #### Too many open files
-If you encounter a "too many open files" error during `methscan prepare` (`OSError: [Errno 24] Too many open files`), you need to increase the maximum number of files that can be opened. In Unix systems, try `ulimit -n 9999`.
+If you encounter a "too many open files" error during `methscan prepare` (`OSError: [Errno 24] Too many open files`), you need to increase the maximum number of files that can be opened. On Unix systems, try `ulimit -n 99999`.
 
 
 ## Source Code
@@ -86,10 +82,13 @@ If you encounter a "too many open files" error during `methscan prepare` (`OSErr
 The source code is hosted at the GitHub repository [anders-biostat/MethSCAn](https://github.com/anders-biostat/MethSCAn).
 
 
-## Code Contributors
+## Authors
 - [Lukas PM Kremer](https://github.com/LKremer)
 - [Martina Braun](https://github.com/martinabraun)
-- [Leonie Küchenhoff](https://github.com/LeonieKuechenhoff)
 - [Svetlana Ovchinnikova](https://github.com/kloivenn)
-- [Alexey Uvarovskii](https://github.com/alexey0308)
+- [Leonie Küchenhoff](https://github.com/LeonieKuechenhoff)
+- Santiago Cerrizuela
+- Ana Martin-Villalba
 - [Simon Anders](https://github.com/simon-anders)
+
+Developed in the [Anders lab](https://www.bioquant.uni-heidelberg.de/groups/anders/team) and the [Martin-Villalba lab](https://martin-villalba-lab.github.io/).
