@@ -3,7 +3,7 @@
 [![PyPIDownloads](https://pepy.tech/badge/scbs)](https://pepy.tech/project/methscan)
 [![GitHub](https://img.shields.io/github/v/tag/anders-biostat/MethSCAn?logo=github)](https://github.com/anders-biostat/MethSCAn)
 
-a command line tool for **S**ingle-**C**ell **An**alysis of **Meth**ylation data
+a command line tool for **S**ingle-**C**ell **An**alysis of **Meth**ylation data.
 
 ## Installation
 
@@ -48,15 +48,17 @@ Lastly, you can also select two cell populations and identify differentially met
 You can find a list of the available `methscan` commands [here](commands.html).
 
 
-## bioRxiv preprint
+## Publication / Citation
 
-For a detailed explanation of the methods implemented in *MethSCAn*, please check our bioRxiv preprint.
-Note that this package was formerly known as ['scbs'](https://github.com/LKremer/scbs) and later renamed to *MethSCAn*.
+For a detailed explanation of the methods implemented in *MethSCAn*, please check out our open access article in Nature Methods:
 
 *Analyzing single-cell bisulfite sequencing data with MethSCAn*  
-Lukas PM Kremer, Martina Braun, Svetlana Ovchinnikova, Leonie Kuechenhoff, Santiago Cerrizuela, Ana Martin-Villalba, Simon Anders  
-bioRxiv 2022.06.15.496318; doi: [https://doi.org/10.1101/2022.06.15.496318](https://doi.org/10.1101/2022.06.15.496318)
+Lukas PM Kremer, Martina Braun, Svetlana Ovchinnikova, Leonie Kuechenhoff, Santiago Cerrizuela, Ana Martin-Villalba, Simon Anders.  
+Nature Methods, 2024
+doi: [https://doi.org/10.1038/s41592-024-02347-x](https://doi.org/10.1038/s41592-024-02347-x)
 
+Please cite this article if you used MethSCAn in your research.  
+Note that this package was formerly known as ['scbs'](https://github.com/LKremer/scbs) and later renamed to *MethSCAn*.
 
 ## Hardware requirements
 

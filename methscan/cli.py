@@ -86,21 +86,21 @@ def _set_n_threads(ctx, param, value):
     help_options_color="green",
     help=f"""
 \b
- __  __      _   _     ____   ____    _           \b
-|  \/  | ___| |_| |__ / ___| / ___|  / \   _ __  
-| |\/| |/ _ \ __| '_ \\\\___ \| |     / _ \ | '_ \  \b
-| |  | |  __/ |_| | | |___) | |___ / ___ \| | | |
-|_|  |_|\___|\__|_| |_|____/ \____/_/   \_\_| |_| {VERSION_STR}
+ __  __      _   _     ____   ____    _  \b
+|  \\/  | ___| |_| |__ / ___| / ___|  / \\   _ __
+| |\\/| |/ _ \\ __| '_ \\\\___ \\| |     / _ \\ | '_ \\  \b
+| |  | |  __/ |_| | | |___) | |___ / ___ \\| | | |
+|_|  |_|\\___|\\__|_| |_|____/ \\____/_/   \\_\\_| |_| {VERSION_STR}
 
 
-    Below you find a list of all available commands.
+  Below you find a list of all available commands.
 To find out what they do and how to use them, check their help like this:
 
-    {style("methscan [command] --help", fg="blue")}
+  {style("methscan [command] --help", fg="blue")}
 
-    To use stdin or stdout, use the dash character
-{style("-", fg="blue")} instead of a file path.
-    """,
+\b
+  For documentation and a usage tutorial, go to 
+  {style("https://anders-biostat.github.io/MethSCAn/", fg="blue")}.""",
 )
 @click.version_option(version=__version__)
 @click.version_option(
@@ -108,28 +108,26 @@ To find out what they do and how to use them, check their help like this:
     "--cite",
     help="Show publication reference and exit.",
     message=(
-        """If you used MethSCAn in your research, please cite:
+        f"""If you used MethSCAn in your research, please cite:
 
-Analyzing single-cell bisulfite sequencing data with MethSCAn
+{style("Analyzing single-cell bisulfite sequencing data with MethSCAn",
+       fg="bright_white", bold=True)}
 Lukas PM Kremer, Martina M Braun, Svetlana Ovchinnikova, Leonie Küchenhoff, """
-        """Santiago Cerrizuela, Ana Martin-Villalba, Simon Anders
-bioRxiv, 2022
-
-doi / link: https://doi.org/10.1101/2022.06.15.496318
-
+        f"""Santiago Cerrizuela, Ana Martin-Villalba, Simon Anders
+Nature Methods, 2024
+doi: {style("https://doi.org/10.1038/s41592-024-02347-x", fg="blue")}
+"""
+"""
 BibTeX entry:
-
 @article{kremer2024,
   title={Analyzing single-cell bisulfite sequencing data with {MethSCAn}},
   author={Kremer, Lukas PM and Braun, Martina M and Ovchinnikova, Svetlana and """
         """K{\"u}chenhoff, Leonie and Cerrizuela, Santiago and """
         """Martin-Villalba, Ana and Anders, Simon},
-  journal={bioRxiv},
-  year={2022},
-  doi = {10.1101/2022.06.15.496318},
-  publisher={Cold Spring Harbor Laboratory}
-}
-"""
+  journal={Nature Methods},
+  year={2024},
+  doi={10.1038/s41592-024-02347-x}
+}"""
     ),
 )
 def cli():

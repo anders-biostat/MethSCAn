@@ -32,11 +32,13 @@ def _get_filepath(f):
 def _iter_bed(file_obj, strand_col_i=None, keep_cols=False):
     is_rev_strand = False
     other_columns = False
+    is_empty = True
     if strand_col_i is not None:
         strand_col_i -= 1  # CLI is 1-indexed
     for line in file_obj:
         if line.startswith("#") or not line.strip():
             continue  # skip comments
+        is_empty = False
         values = line.strip().split("\t")
         if strand_col_i is not None:
             strand_val = values[strand_col_i]
@@ -53,6 +55,8 @@ def _iter_bed(file_obj, strand_col_i=None, keep_cols=False):
             other_columns = values[3:]
         # yield chrom, start, end, and whether the feature is on the minus strand
         yield values[0], int(values[1]), int(values[2]), is_rev_strand, other_columns
+    if is_empty:
+        raise Exception("The BED file you have provided is empty.")
 
 
 def _parse_cell_names(data_dir):
