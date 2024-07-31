@@ -26,7 +26,7 @@ def _output_file_handle(raw_path):
 
 
 @njit
-def _find_peaks(smoothed_vars, swindow_centers, var_cutoff, half_bw):
+def _find_peaks(smoothed_vars, swindow_centers, var_cutoff, half_bw, bridge_gaps=0):
     """
     After we calculated the variance for each window, this function
     merges overlapping windows above a variance threshold (var_cutoff).
@@ -41,7 +41,7 @@ def _find_peaks(smoothed_vars, swindow_centers, var_cutoff, half_bw):
             if not in_peak:
                 # entering new peak
                 in_peak = True
-                if peak_ends and pos - half_bw <= max(peak_ends):
+                if peak_ends and pos - half_bw - bridge_gaps <= max(peak_ends):
                     # it's not really a new peak, the last peak wasn't
                     # finished, there was just a small dip...
                     peak_ends.pop()
@@ -104,6 +104,7 @@ def scan(
     stepsize,
     var_threshold,
     min_cells,
+    bridge_gaps,
     threads=-1,
     write_header=False,
 ):
@@ -162,7 +163,7 @@ def scan(
         # merge overlapping windows with high variance, to get bigger regions
         # of variable size
         peak_starts, peak_ends = _find_peaks(
-            window_variances, genomic_positions, var_threshold_value, half_bw
+            window_variances, genomic_positions, var_threshold_value, half_bw, bridge_gaps
         )
 
         # for each big merged peak, re-calculate the variance and

@@ -402,6 +402,14 @@ def smooth_cli(**kwargs):
     "cells are reported.",
 )
 @click.option(
+    "--bridge-gaps",
+    metavar="INTEGER",
+    default=0,
+    type=int,
+    help="Merge neighboring VMRs if they are within this distance in basepairs. Useful "
+    "to prevent fragmented VMRs separated only by small gaps.  [default: off; x>=0]",
+)
+@click.option(
     "--threads",
     default=-1,
     help="How many CPU threads to use in parallel.  [default: all available]",

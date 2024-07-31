@@ -134,6 +134,19 @@ FIND_PEAKS_TEST_CASES = [
     {
         "input": {
             "smoothed_vars": TEST_VARS1,
+            "bandwidth": 200,
+            "stepsize": 100,
+            "var_cutoff": 0.55,
+            "bridge_gaps": 400,
+        },
+        "output": {
+            "peak_starts": [0, 2400, 3400],
+            "peak_ends": [1900, 2600, 3600],
+        },
+    },
+    {
+        "input": {
+            "smoothed_vars": TEST_VARS1,
             "bandwidth": 2000,
             "stepsize": 2000,
             "var_cutoff": 0.55,
@@ -203,6 +216,19 @@ FIND_PEAKS_TEST_CASES = [
             "peak_ends": [600, 1100, 2400, 3000, 3600, 5400],
         },
     },
+    {
+        "input": {
+            "smoothed_vars": TEST_VARS2,
+            "bandwidth": 300,
+            "stepsize": 100,
+            "var_cutoff": 0.3,
+            "bridge_gaps": 100,
+        },
+        "output": {
+            "peak_starts": [300, 800, 2600, 3200],
+            "peak_ends": [600, 2400, 3000, 5400],
+        },
+    },
 ]
 
 
@@ -221,7 +247,8 @@ def run_find_peaks(test_dict):
     var_cutoff = test_dict["input"]["var_cutoff"]
     smoothed_vars = test_dict["input"]["smoothed_vars"]
     swindow_centers = (np.arange(0, smoothed_vars.size) * stepsize) + half_bw
-    starts, ends = _find_peaks(smoothed_vars, swindow_centers, var_cutoff, half_bw)
+    bridge_gaps = test_dict["input"].get("bridge_gaps", 0)
+    starts, ends = _find_peaks(smoothed_vars, swindow_centers, var_cutoff, half_bw, bridge_gaps)
     assert np.array_equal(starts, np.array(test_dict["output"]["peak_starts"]))
     assert np.array_equal(ends, np.array(test_dict["output"]["peak_ends"]))
 
