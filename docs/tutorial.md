@@ -99,7 +99,7 @@ cell_stats %>%
   labs(x = "global DNA methylation %", y = "# of observed CpG sites")
 ```
 
-<img src="tutorial_QC.png" width="300" height="300">
+<img src="tutorial_QC.png" height="500">
 
 You can clearly see that there are three outlier cells, characterized by a low number of observed CpG sites or an unusual global methylation percentage.
 Note that we're dealing with a small toy data set here, and the numbers will look quite different in a real experiment!
@@ -129,7 +129,7 @@ profile_df %>%
   labs(x = "position relative to TSS [kb]", y = "DNA methylation")
 ```
 
-<img src="tutorial_tss_profiles.png" height="300">
+<img src="tutorial_tss_profiles.png" height="600">
 
 There are only two cells that have a suspicious profile: `cell_20` and `cell_30`.
 If you dig into the data yourself, you will find that these two cells are among the three outliers in our previous plot.
@@ -238,7 +238,7 @@ To counter this, we propose a simple and straightforward way to deal with missin
 Below, you can find an R function that implements this approach:
 ```r
 # PCA that iteratively imputes missing values
-prcomp_iterative <- function(x, n=10, n_iter=100, min_gain=0.01, ...) {
+prcomp_iterative <- function(x, n=10, n_iter=50, min_gain=0.001, ...) {
   mse <- rep(NA, n_iter)
   na_loc <- is.na(x)
   x[na_loc] = 0  # zero is our first guess
@@ -268,33 +268,97 @@ We simply run our modified PCA on the centered methylation matrix...
 ```r
 pca <- meth_mtx %>%
   scale(center = T, scale = F) %>%
-  prcomp_iterative(n = 5, n_iter = 5)
-  
-rownames(pca$x) <- rownames(meth_mtx)
+  prcomp_iterative(n = 5)  # increase this value to e.g. 15 for real data sets
+
+pca_tbl <- as_tibble(pca$x) %>% 
+  add_column(cell=rownames(meth_mtx))
 ```
 
 ...and then plot the PCA, revealing three cell types with distinct methylomes:
 ```r
-pca$x %>% 
-  as_tibble() %>% 
+pca_tbl %>% 
   ggplot(aes(x = PC1, y = PC2)) +
   geom_point() +
-  coord_fixed()
+  coord_fixed() +
+  labs(title="PCA based on VMR methylation")
 ```
 
-<img src="tutorial_PCA.png" width="300" height="300">
+<img src="tutorial_PCA.png" height="400">
 
 Of course you can also use PCA on the promoter methylation matrix instead of the VMR matrix by simply loading `promoter_matrix/mean_shrunken_residuals.csv.gz` instead of `VMR_matrix/mean_shrunken_residuals.csv.gz`.
 This matrix yields a visually similar PCA, although the three cell types are not as cleanly separated:
 
-<img src="tutorial_PCA_promoter.png" width="300" height="300">
+<img src="tutorial_PCA_promoter.png" height="400">
+
+
+
+#### UMAP
+Uniform Manifold Approximation and Projection for Dimension Reduction (UMAP) is a data visualization technique that is commonly used in the single-cell sequencing field.
+In single-cell transcriptomics, it is common practice to use the principal components as input for UMAP. We employ the same strategy here:
+
+```r
+library(uwot)  # R package for UMAP
+
+umap_obj <- uwot::umap(pca$x, min_dist=0.05, n_neighbors=5, seed=2, ret_nn=T)
+umap_tbl <- umap_obj$embedding %>%
+  magrittr::set_colnames(c("UMAP1", "UMAP2")) %>% 
+  as_tibble() %>% 
+  add_column(cell=rownames(meth_mtx))
+
+umap_tbl %>% 
+  ggplot(aes(x = UMAP1, y = UMAP2)) +
+  geom_point() +
+  coord_fixed() +
+  labs(title="UMAP based on VMR methylation")
+```
+
+<img src="tutorial_UMAP.png" height="450">
+
+This is our UMAP. For this very simple example data set, it's a little pointless because the three clusters were already very clearly separated on the first two principal components.
+
+
+#### Cell clustering
+Just like UMAP, Leiden clustering needs a neighbor graph as input. The UMAP function automatically computes this neighbor graph for us, and we can obtain it from the UMAP object because we specified `ret_nn=T`.
+We can run Leiden clustering as follows:
+```r
+library(igraph)  # R package for graph manipulation, also implements the Leiden algorithm
+
+# get the edges of the neighbor graph from the UMAP object
+neighbor_graph_edges <- 
+  tibble(from = rep(1:nrow(umap_obj$nn$euclidean$idx), times=ncol(umap_obj$nn$euclidean$idx)),
+         to = as.vector(umap_obj$nn$euclidean$idx),
+         weight = as.vector(umap_obj$nn$euclidean$dist)) %>%
+  filter(from != to) %>%
+  mutate(from = rownames(meth_mtx)[from],
+         to = rownames(meth_mtx)[to])
+
+# run Leiden clustering
+clust_obj <- neighbor_graph_edges %>%
+  igraph::graph_from_data_frame(directed=F) %>% 
+  igraph::cluster_leiden(resolution_parameter = .5)  # adjust the resolution parameter to your needs
+
+# put the clustering results into a data frame (tibble) for plotting
+clust_tbl <- tibble(
+  leiden_cluster = as.character(clust_obj$membership),
+  cell = clust_obj$names
+) %>% 
+  full_join(umap_tbl, by="cell")
+
+clust_tbl %>% 
+  ggplot(aes(x = UMAP1, y = UMAP2, color = leiden_cluster)) +
+  geom_point() +
+  coord_fixed()
+```
+
+<img src="tutorial_UMAP_clusters.png" height="450">
+
 
 
 ### 6. Finding differentially methylated regions (DMRs)
 
 Now that we know that our sample consists of three groups of cells with different methylomes, the next step is to ask where in the genome methylation differs between those putative cell types.
 To scan the genome between two groups of cells, you can use `methscan diff`.
-For this tutorial, I am going to compare the methylomes of the cells on the left of the PCA plot to the cells on the top right of the PCA plot.
+For this tutorial, I am going to compare the methylomes of the cells in Leiden cluster 2 to the cells in Leiden cluster 3.
 I will call these two groups of cells group_A and group_B.
 `methscan diff` needs a simple comma-separated text file that lists which cell belongs to which group, like this:
 
@@ -328,22 +392,16 @@ cell_28,group_B
 cell_29,group_B
 ```
 
-The cells I labeled with the group `-`, i.e. cells in the bottom right of the PCA plot, are not part of the comparison.
 
-There are many different ways to generate this text file.
-Usually you would use clustering, but for simplicity of this tutorial I just grouped the cells according to their position in the PCA:
-
+The cells I labeled with the group `-`, i.e. cells in Leiden cluster 1, are not part of the comparison.
+I generated this text file as follows:
 ```r
-cell_groups <- pca$x %>% 
-  as_tibble(rownames="cell") %>% 
-  mutate(group = case_when(
-    PC1 < 0 ~ "group_A",
-    PC1 > 0 & PC2 > 0 ~ "group_B",
-    TRUE ~ "-"
-  ))
-  
-cell_groups %>%
-  dplyr::select(cell, group) %>% 
+clust_tbl %>%
+  mutate(cell_group = case_when(
+    leiden_cluster == "1" ~ "-",
+    leiden_cluster == "2" ~ "group_A",
+    leiden_cluster == "3" ~ "group_B")) %>% 
+  dplyr::select(cell, cell_group) %>%
   write_csv("cell_groups.csv", col_names=F)
 ```
 
@@ -355,6 +413,19 @@ methscan diff --threads 4 filtered_data cell_groups.csv DMRs.bed
 
 The output file `DMRs.bed` contains a list of DMRs, their genome coordinates, the methylation difference measured by the t-statistic, and an adjusted p-value for each DMR.
 One way to explore potential functions of these DMRs is to use tools such as [GREAT](http://great.stanford.edu).
+
+
+
+### Considerations for real data sets
+The tutorial data set is pretty small and its easy to distinguish the three clusters. For real data sets, you might need to adjust some parameters:
+1. Just like in single-cell transcriptomics, you need to tweak some parameters to suit your dataset. For instance, you usually want to consider more than the 5 principal components we used here (e.g. 15).
+Similarly, `n_neighbors=5` makes sense for our tiny data set, but since you probably have way more cells you have to increase this parameter accordingly, e.g. to 30. It's can also be worth exploring different clustering resolution parameters.
+2. The built-in R function `read.csv` is quite slow. A faster alternative is `fread` from the `data.table` package:
+```r
+meth_mtx <- "VMR_matrix/mean_shrunken_residuals.csv.gz" %>% 
+  data.table::fread(sep=",") %>%
+  as.matrix(rownames=1)
+```
 
 
 
