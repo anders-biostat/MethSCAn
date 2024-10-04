@@ -5,7 +5,7 @@ import pandas as pd
 from click.testing import CliRunner
 
 from methscan.cli import cli
-from methscan.diff import parse_cell_groups
+from methscan.diff import parse_cell_groups, calc_fdr
 
 
 def test_parse_cell_groups():
@@ -52,7 +52,7 @@ def test_diff_cli(tmp_path):
     assert dmr[1].sum() == 31250980767
     assert dmr[2].sum() == 31252060767
     assert dmr[3].sum() == -165.62208458348474
-    assert dmr[11].sum() == 486.24726241344274
+    assert dmr[11].sum() == 453.1849885684313
     assert len(dmr[dmr[9] == "neuroblast"]) == 284
     assert dmr[0][493] == 9
     assert dmr[2][135] == 58035292
@@ -63,3 +63,124 @@ def test_diff_cli(tmp_path):
     assert np.all(dmr[6] >= 3)
     assert np.all(dmr[7] >= 0) and np.all(dmr[7] <= 1)
     assert np.all(dmr[8] >= 0) and np.all(dmr[8] <= 1)
+
+
+FDR_TEST_DATA = [
+    {
+        "input": [
+            True,
+            True,
+            False,
+        ],
+        "output": {"mean": 0.3333333, "<0.05": 2, "<0.1": 2, "<0.5": 2},
+    },
+    {
+        "input": [
+            False,
+            False,
+            True,
+        ],
+        "output": {"mean": 1, "<0.05": 0, "<0.1": 0, "<0.5": 0},
+    },
+    {
+        "input": [
+            True,
+            True,
+            True,
+            True,
+            True,
+            False,
+            True,
+            True,
+            True,
+            True,
+            True,
+            True,
+            True,
+            True,
+            True,
+            True,
+            True,
+            True,
+            False,
+            True,
+            False,
+            False,
+            False,
+            True,
+            True,
+            False,
+            True,
+            True,
+            False,
+            True,
+            True,
+            False,
+            False,
+            True,
+            True,
+            True,
+            False,
+            True,
+            False,
+            True,
+            False,
+            True,
+            False,
+            False,
+            True,
+            False,
+            False,
+            True,
+            True,
+            False,
+            True,
+            True,
+            True,
+            False,
+            False,
+            True,
+            False,
+            False,
+            True,
+            False,
+            True,
+            False,
+            True,
+            True,
+            True,
+            True,
+            False,
+            False,
+            False,
+            True,
+            False,
+            False,
+            False,
+            True,
+            True,
+            False,
+            True,
+            True,
+            False,
+            True,
+            False,
+            False,
+            False,
+            False,
+            True,
+        ],
+        "output": {"mean": 0.5335206, "<0.05": 5, "<0.1": 18, "<0.5": 36},
+    },
+]
+
+
+def test_calc_fdr():
+    for test_d in FDR_TEST_DATA:
+        input_bools = np.array(test_d["input"])
+        outputs = test_d["output"]
+        adj_p_vals = calc_fdr(input_bools)
+        assert np.sum(adj_p_vals < 0.05) == outputs["<0.05"], "n hits <0.05"
+        assert np.sum(adj_p_vals < 0.1) == outputs["<0.1"], "n hits <0.1"
+        assert np.sum(adj_p_vals < 0.5) == outputs["<0.5"], "n hits <0.5"
+        assert round(np.mean(adj_p_vals), 7) == outputs["mean"], "mean adj. p"

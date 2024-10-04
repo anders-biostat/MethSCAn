@@ -62,6 +62,15 @@ def calc_fdr(bools):
             # prevent div by 0 in the rare case that the best hit is from a permutation
             adj_p_val = 1
         adj_p_vals[i] = adj_p_val
+    # iterate through the list from the back to make sure that there are no values
+    # greater than one, and to make sure it's continuously increasing
+    current_min = 1.0
+    for i_rev in np.arange(1, len(bools))[::-1]:
+        p = adj_p_vals[i_rev]
+        if p > current_min:
+            adj_p_vals[i_rev] = current_min
+        elif p < current_min:
+            current_min = p
     return adj_p_vals
 
 
@@ -117,7 +126,7 @@ def calc_welch_tstat(group1, group2, min_cells):
     Calculates the t-statistic according to Welch's t-test for unequal variances.
     Mostly copy-paste from calc_welch_tstat_df, this is ugly but gives a slight edge
     in performance.
-    Returns the t-statistic, df, and the two group sizes.
+    Returns the t-statistic only.
     """
     len_g1 = len(group1)
     if len_g1 < min_cells:
