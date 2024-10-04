@@ -117,7 +117,7 @@ Lukas PM Kremer, Martina M Braun, Svetlana Ovchinnikova, Leonie Küchenhoff, """
 Nature Methods, 2024
 doi: {style("https://doi.org/10.1038/s41592-024-02347-x", fg="blue")}
 """
-"""
+        """
 BibTeX entry:
 @article{kremer2024,
   title={Analyzing single-cell bisulfite sequencing data with {MethSCAn}},

@@ -248,7 +248,9 @@ def run_find_peaks(test_dict):
     smoothed_vars = test_dict["input"]["smoothed_vars"]
     swindow_centers = (np.arange(0, smoothed_vars.size) * stepsize) + half_bw
     bridge_gaps = test_dict["input"].get("bridge_gaps", 0)
-    starts, ends = _find_peaks(smoothed_vars, swindow_centers, var_cutoff, half_bw, bridge_gaps)
+    starts, ends = _find_peaks(
+        smoothed_vars, swindow_centers, var_cutoff, half_bw, bridge_gaps
+    )
     assert np.array_equal(starts, np.array(test_dict["output"]["peak_starts"]))
     assert np.array_equal(ends, np.array(test_dict["output"]["peak_ends"]))
 

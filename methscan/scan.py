@@ -163,7 +163,11 @@ def scan(
         # merge overlapping windows with high variance, to get bigger regions
         # of variable size
         peak_starts, peak_ends = _find_peaks(
-            window_variances, genomic_positions, var_threshold_value, half_bw, bridge_gaps
+            window_variances,
+            genomic_positions,
+            var_threshold_value,
+            half_bw,
+            bridge_gaps,
         )
 
         # for each big merged peak, re-calculate the variance and
