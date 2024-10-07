@@ -2,18 +2,23 @@
 ```
 Usage: methscan [OPTIONS] COMMAND [ARGS]...
 
-  MethSCAn version 1.0.0
+   __  __      _   _     ____   ____    _  
+  |  \/  | ___| |_| |__ / ___| / ___|  / \   _ __
+  | |\/| |/ _ \ __| '_ \\___ \| |     / _ \ | '_ \  
+  | |  | |  __/ |_| | | |___) | |___ / ___ \| | | |
+  |_|  |_|\___|\__|_| |_|____/ \____/_/   \_\_| |_| v1.0.2
 
-  Below you find a list of all available commands. To find out what they do
-  and how to use them, check their help like this:
+    Below you find a list of all available commands. To find out what they do
+    and how to use them, check their help like this:
 
-  methscan [command] --help
+    methscan [command] --help
 
-  To use stdin or stdout, use the dash character - instead of a file
-  path.
+    For documentation and a usage tutorial, go to 
+    https://anders-biostat.github.io/MethSCAn/.
 
 Options:
   --version  Show the version and exit.
+  --cite     Show publication reference and exit.
   --help     Show this message and exit.
 
 Commands:
@@ -150,16 +155,20 @@ Options:
                             Increase this value to find larger VMRs.
                             [default: 2000; x>=1]
   --stepsize INTEGER        Step size of the sliding window in basepairs.
-                            Increase this value to gain speed, at the cost of
-                            some accuracy.  [default: 100; x>=1]
+                            Should be smaller than the bandwidth. Increase
+                            this value to gain speed, at the cost of some
+                            accuracy.  [default: 100; x>=1]
   --var-threshold FLOAT     The variance threshold, i.e. 0.02 means that the
-                            top 2% most variable genomic bins will be
-                            reported. Overlapping variable bins are merged.
-                            [default: 0.02; 0<=x<=1]
+                            top 2% most variable genomic bins will be merged
+                            and reported as VMRs.  [default: 0.02; 0<=x<=1]
   --min-cells INTEGER       The minimum number of cells required to report a
                             VMR. For example, a value of 6 means that only
                             VMRs with sequencing coverage in at least 6 cells
                             are reported.  [default: 6; x>=1]
+  --bridge-gaps INTEGER     Merge neighboring VMRs if they are within this
+                            distance in basepairs. Useful to prevent
+                            fragmented VMRs separated only by small gaps.
+                            [default: off]  [x>=0]
   --threads INTEGER         How many CPU threads to use in parallel.
                             [default: all available]
   --write-header            Write the column names of the output file.
@@ -202,14 +211,19 @@ Options:
                             Increase this value to gain speed, at the cost of
                             some accuracy.  [default: 1000; x>=1]
   --threshold FLOAT         The t-statistic threshold, i.e. 0.02 means that
-                            the top 2% most differentially methylated genomic
-                            bins will be reported. Overlapping bins are
-                            merged.  [default: 0.02; 0<=x<=1]
+                            the top 2% and bottom 2% most differentially
+                            methylated genomic bins will be separately merged
+                            and reported as DMRs with adjusted p-values.
+                            [default: 0.02; 0<=x<=1]
   --min-cells INTEGER       The minimum number of cells required to consider a
                             genomic region for testing. For example, a value
                             of 6 means that only regions with sequencing
                             coverage in at least 6 cells per group are
                             considered.  [default: 6; x>=1]
+  --bridge-gaps INTEGER     Merge neighboring DMRs if they are within this
+                            distance in basepairs. Useful to prevent
+                            fragmented DMRs separated only by small gaps.
+                            [default: off]  [x>=0]
   --threads INTEGER         How many CPU threads to use in parallel.
                             [default: all available]
   --write-header            Write the column names of the output file.
@@ -246,7 +260,7 @@ Usage: methscan matrix [OPTIONS] REGIONS DATA_DIR OUTPUT_DIR
 Options:
   --sparse           [experimental] Write the output as a sparse matrix,
                      instead of the four .csv.gz files described above. This
-                     is faster and more space-efficient for large data sets.
+                     is faster and more space-efficient for huge data sets.
                      The output 'matrix.mtx.gz' contains four columns:
                      row_index, col_index, shrunken residuals, methylation
                      fractions, coverage. Both indices are 1-indexed. Missing
@@ -279,10 +293,10 @@ Options:
                            will be extended, longer regions will be shortened
                            accordingly.  [default: 4000; x>=1]
   --strand-column INTEGER  The bed column number (1-indexed) denoting the DNA
-                           strand of the region  [optional].  [x>=1]
+                           strand of the region.  [optional]  [x>=1]
   --label TEXT             Specify a constant value to be added as a column to
                            the output table. This can be useful to give each
                            output a unique label when you want to concatenate
-                           multiple outputs  [optional].
+                           multiple outputs.  [optional]
   --help                   Show this message and exit.
 ```
