@@ -403,11 +403,11 @@ def smooth_cli(**kwargs):
 )
 @click.option(
     "--bridge-gaps",
-    metavar="INTEGER",
     default=0,
-    type=int,
+    type=click.IntRange(min=0),
+    metavar="INTEGER",
     help="Merge neighboring VMRs if they are within this distance in basepairs. Useful "
-    "to prevent fragmented VMRs separated only by small gaps.  [default: off; x>=0]",
+    "to prevent fragmented VMRs separated only by small gaps.  [default: off]",
 )
 @click.option(
     "--threads",
@@ -502,6 +502,14 @@ def scan_cli(**kwargs):
     help="The minimum number of cells required to consider a genomic region for "
     "testing. For example, a value of 6 means that only regions with sequencing "
     "coverage in at least 6 cells per group are considered.",
+)
+@click.option(
+    "--bridge-gaps",
+    default=0,
+    type=click.IntRange(min=0),
+    metavar="INTEGER",
+    help="Merge neighboring VMRs if they are within this distance in basepairs. Useful "
+    "to prevent fragmented VMRs separated only by small gaps.  [default: off]",
 )
 @click.option(
     "--threads",
@@ -637,14 +645,14 @@ def matrix_cli(**kwargs):
     type=click.IntRange(min=1),
     metavar="INTEGER",
     help="The bed column number (1-indexed) denoting "
-    "the DNA strand of the region  [optional].",
+    "the DNA strand of the region.  [optional]",
 )
 @click.option(
     "--label",
     help="Specify a constant value to be added as a "
     "column to the output table. This can be "
     "useful to give each output a unique label when "
-    "you want to concatenate multiple outputs  [optional].",
+    "you want to concatenate multiple outputs.  [optional]",
 )
 def profile_cli(**kwargs):
     from .profile import profile

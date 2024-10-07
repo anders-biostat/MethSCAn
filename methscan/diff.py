@@ -238,6 +238,7 @@ def calc_tstat_peaks(
     chrom_len,
     index,
     min_cells,
+    bridge_gaps,
     threshold_datatype,
     window_tstat_groups,
     genomic_positions,
@@ -252,7 +253,7 @@ def calc_tstat_peaks(
         # merge overlapping windows with lowest and highest t-statistic,
         # to get bigger regions of variable size
         peak_starts, peak_ends = _find_peaks(
-            tstat_windows, genomic_positions, threshold_value, half_bw
+            tstat_windows, genomic_positions, threshold_value, half_bw, bridge_gaps
         )
 
         # for each big merged peak, re-calculate the t-statistic
@@ -389,6 +390,7 @@ def diff(
     stepsize,
     threshold,
     min_cells,
+    bridge_gaps,
     threads=-1,
     write_header=False,
     debug=False,
@@ -526,6 +528,7 @@ def diff(
                 chrom_len,
                 perm_idx,
                 min_cells,
+                bridge_gaps,
                 threshold_datatype,
                 window_tstat_groups,
                 genomic_positions,
