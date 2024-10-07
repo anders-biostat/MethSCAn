@@ -387,9 +387,8 @@ def smooth_cli(**kwargs):
     show_default=True,
     type=click.FloatRange(min=0, max=1),
     metavar="FLOAT",
-    help="The variance threshold, i.e. 0.02 means that the top 2% "
-    "most variable genomic bins will be reported. Overlapping variable bins "
-    "are merged.",
+    help="The variance threshold, i.e. 0.02 means that the top 2% most variable "
+    "genomic bins will be merged and reported as VMRs.",
 )
 @click.option(
     "--min-cells",
@@ -489,9 +488,9 @@ def scan_cli(**kwargs):
     show_default=True,
     type=click.FloatRange(min=0, max=1),
     metavar="FLOAT",
-    help="The t-statistic threshold, i.e. 0.02 means that the top 2% "
-    "most differentially methylated genomic bins will be reported. "
-    "Overlapping bins are merged.",
+    help="The t-statistic threshold, i.e. 0.02 means that the top 2% and "
+    "bottom 2% most differentially methylated genomic bins will be separately "
+    "merged and reported as DMRs with adjusted p-values."
 )
 @click.option(
     "--min-cells",
@@ -508,8 +507,8 @@ def scan_cli(**kwargs):
     default=0,
     type=click.IntRange(min=0),
     metavar="INTEGER",
-    help="Merge neighboring VMRs if they are within this distance in basepairs. Useful "
-    "to prevent fragmented VMRs separated only by small gaps.  [default: off]",
+    help="Merge neighboring DMRs if they are within this distance in basepairs. Useful "
+    "to prevent fragmented DMRs separated only by small gaps.  [default: off]",
 )
 @click.option(
     "--threads",
