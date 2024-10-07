@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "MethSCAn"
-version = "1.0.2"
+version = "1.1.0"
 description = "a command line tool for Single-Cell Analysis of Methylation data"
 authors = [
     "Lukas PM Kremer <L-Kremer@web.de>",
