@@ -168,7 +168,7 @@ Now that `filtered_data` is smoothed, we can proceed with the VMR detection:
 methscan scan --threads 4 filtered_data VMRs.bed
 ```
 We use the option `--threads 4` in order to run the program on 4 CPU threads in parallel. If you want to use all available threads, simply omit the `--threads` option altogether.
-The result is a [BED-file](https://en.wikipedia.org/wiki/BED_(file_format)) that lists the genomic coordinates (chromosome, start, end) of regions where methylation is variable between cells, as well as the methylation variance of the region:
+The result is a [BED](https://en.wikipedia.org/wiki/BED_(file_format))-like file that lists the genomic coordinates (chromosome, start, end) of regions where methylation is variable between cells, as well as the methylation variance of the region:
 ```
 2       3194798 3197978 0.07718534715010719
 2       3379038 3381638 0.08048814475349723
@@ -177,7 +177,6 @@ The result is a [BED-file](https://en.wikipedia.org/wiki/BED_(file_format)) that
 2       4544208 4546518 0.08275669639137119
 ...
 ```
-
 
 ### 4. Obtaining a methylation matrix
 
@@ -413,6 +412,9 @@ methscan diff --threads 4 filtered_data cell_groups.csv DMRs.bed
 
 The output file `DMRs.bed` contains a list of DMRs, their genome coordinates, the methylation difference measured by the t-statistic, and an adjusted p-value for each DMR.
 One way to explore potential functions of these DMRs is to use tools such as [GREAT](http://great.stanford.edu).
+
+Of course you can tweak the parameters of both `scan` and `diff` to your needs. If you are primarily interested in large stretches of differentially methylated DNA, for instance, you can increase the bandwidth of the sliding window and/or use `--bridge-gaps` to merge small VMRs/DMRs that are very close.
+<img src="tutorial_scan_params.png" height="300">
 
 
 
