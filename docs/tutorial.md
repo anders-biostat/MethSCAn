@@ -413,8 +413,8 @@ methscan diff --threads 4 filtered_data cell_groups.csv DMRs.bed
 The output file `DMRs.bed` contains a list of DMRs, their genome coordinates, the methylation difference measured by the t-statistic, and an adjusted p-value for each DMR.
 One way to explore potential functions of these DMRs is to use tools such as [GREAT](http://great.stanford.edu).
 
-Of course you can tweak the parameters of both `scan` and `diff` to your needs. If you are primarily interested in large stretches of differentially methylated DNA, for instance, you can increase the bandwidth of the sliding window and/or use `--bridge-gaps` to merge small VMRs/DMRs that are very close.
-<img src="tutorial_scan_params.png" height="300">
+Of course you can tweak the parameters of both `scan` and `diff` to your needs. If you are primarily interested in large stretches of differentially methylated DNA, for instance, you can increase the bandwidth of the sliding window and/or use `--bridge-gaps` to merge small VMRs/DMRs that are very close. The parameters of `scan` and `diff` are visually explained in this schematic:
+<img src="tutorial_scan_params.png" height="350">
 
 
 
