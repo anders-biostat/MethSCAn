@@ -67,9 +67,27 @@ Very large data sets (~100k cells) require at least 128 GB.
 Multiple CPU cores are not strictly required but will greatly speed up some commands such as `methscan scan` or `methscan diff` when using the `--threads` argument.
 
 
+## FAQ
+
+#### What's the difference between a VMR and DMR?
+Variably methylated regions (VMRs) are genomic intervals that exhibit variable levels of methylation across the cells in a given sample.
+In simple words, this means that some cells exhibit high methylation in this region, while other cells exhibit low methylation there.
+The VMR detection algorithm is not concerned with the source of this variation: it could be due to differences in cell type, data quality, or any other factor that might affect DNA methylation.
+In contrast, differentially methylated regions (DMRs) are the result of a targeted comparison of two groups of cells that were manually selected by the user (e.g. wild type cells vs. knockout cells, cancer vs. healthy, neurons vs. astrocytes).
+If you are familiar with scRNA-seq, it makes sense to think of DMRs as similar to differentially expressed genes, while VMRs are similar to highly-variable genes.
+
+
 ## Troubleshooting
 
-#### Installation issues
+#### Installation issue "This environment is externally managed"
+
+The latest Ubuntu version requires the use of a virtual environment to install Python packages.
+In almost all cases, this can be achieved by using `pipx` instead of `pip`. To do this, install pipx if you don't have it already.
+Then you can install *MethSCAn* with `pipx install methscan`. Then restart your terminal.
+
+For more information or alternative solutions, check this [answer on stackoverflow](https://stackoverflow.com/a/75722775).
+
+#### Other installation issues
 
 Carefully check the output log of PIP. Look for a message like `WARNING: The script methscan is installed in '/home/ubuntu/.local/bin' which is not on PATH.`, which would indicate that you need to add `/home/ubuntu/.local/bin` to your path. Alternatively, you can copy `/home/ubuntu/.local/bin/methscan` to e.g. `/usr/local/bin`.
 
