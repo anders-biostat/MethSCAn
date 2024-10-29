@@ -107,7 +107,7 @@ Note that we're dealing with a small toy data set here, and the numbers will loo
 Finally, we also inspect the average methylation profile around transcription start sites (TSSs) for every cell.
 Why?
 Our tutorial data set consists of mouse cells, and it is known that DNA methylation is globally high in mouse, but low around TSSs.
-Every cell that strongly deviates from this expectation is suspicious and a candidate for filtering, so we use `methscan profile` to help visualize the average methylation around TSSs:
+Every cell that strongly deviates from this expectation is suspicious and a candidate for filtering, so we use `methscan profile` to help visualize the average methylation around TSSs (you can find the BED-file of mouse TSSs in the tutorial data that you downloaded earlier):
 ```bash
 methscan profile --strand-column 6 scbs_tutorial_data/Mus_musculus.GRCm38.102_TSS.bed compact_data TSS_profile.csv
 ```
